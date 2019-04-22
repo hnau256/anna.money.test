@@ -27,13 +27,18 @@ dependencies {
     implementation "com.android.support:appcompat-v7:28.0.0"
 
     implementation "io.reactivex.rxjava2:rxjava:2.2.8"
-    implementation "com.squareup.retrofit2:retrofit:2.5.0"
 
-    ext.moxy_version = '1.5.6'
+    def retrofit_version = '2.5.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-simplexml:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
+    def moxy_version = '1.5.6'
     implementation "com.arello-mobile:moxy:$moxy_version"
+    annotationProcessor "com.arello-mobile:moxy-compiler:$moxy_version"
     compileOnly "com.arello-mobile:moxy-compiler:$moxy_version"
 
-    ext.dagger_version = '2.22.1'
+    def dagger_version = '2.22.1'
     implementation "com.google.dagger:dagger:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"

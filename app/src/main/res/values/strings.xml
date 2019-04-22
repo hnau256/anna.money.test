@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">AnnaMoney</string>
+
+    <string name="currency_name_USD">Доллар США</string>
+    <string name="currency_name_JPY">Иена</string>
+    <string name="currency_name_BGN">Лев</string>
+    <string name="currency_name_CZK">Чешская крона</string>
+    <string name="currency_name_DKK">Датская крона</string>
+    <string name="currency_name_GBP">Фунт стерлингов</string>
+    <string name="currency_name_HUF">Форинт</string>
+    <string name="currency_name_PLN">Злотый</string>
+    <string name="currency_name_RON">Румынский лей</string>
+    <string name="currency_name_SEK">Шведская крона</string>
+    <string name="currency_name_CHF">Швейцарский франк</string>
+    <string name="currency_name_ISK">Исландская крона</string>
+    <string name="currency_name_NOK">Норвежская крона</string>
+    <string name="currency_name_HRK">Куна</string>
+    <string name="currency_name_RUB">Российский рубль</string>
+    <string name="currency_name_TRY">Турецкая лира</string>
+    <string name="currency_name_AUD">Австралийский доллар</string>
+    <string name="currency_name_BRL">Реал</string>
+    <string name="currency_name_CAD">Канадский доллар</string>
+    <string name="currency_name_CNY">Юань</string>
+    <string name="currency_name_HKD">Гонконгский доллар</string>
+    <string name="currency_name_IDR">Индонезийская рупия</string>
+    <string name="currency_name_ILS">Новый шекель</string>
+    <string name="currency_name_INR">Индийская рупия</string>
+    <string name="currency_name_KRW">Южнокорейская вона</string>
+    <string name="currency_name_MXN">Мексиканское песо</string>
+    <string name="currency_name_MYR">Ринггит</string>
+    <string name="currency_name_NZD">Новозеландский доллар</string>
+    <string name="currency_name_PHP">Филиппинский песо</string>
+    <string name="currency_name_SGD">Сингапурский доллар</string>
+    <string name="currency_name_THB">Бат</string>
+    <string name="currency_name_ZAR">Рэнд</string>
+
 </resources>

@@ -3,10 +3,10 @@ package org.hnau.anna.money.converter
 import ru.hnau.jutils.TimeValue
 
 
-interface CurrencyConverterProvider {
+abstract class CurrencyConverterProvider(
+        val actualConverterLifetime: TimeValue
+) {
 
-    val actualConverterLifetime: TimeValue
-
-    suspend fun getCurrencyConverter(): CurrencyConverter
+    suspend abstract fun getCurrencyConverter(): CurrencyConverter
 
 }

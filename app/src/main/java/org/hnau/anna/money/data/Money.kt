@@ -3,9 +3,15 @@ package org.hnau.anna.money.data
 import java.math.BigDecimal
 
 
-inline class Money(
+class Money(
         val value: BigDecimal
 ) {
+
+    companion object {
+
+        val ZERO = Money("0")
+
+    }
 
     constructor(
             value: String

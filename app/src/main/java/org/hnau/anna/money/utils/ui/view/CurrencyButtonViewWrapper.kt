@@ -1,13 +1,11 @@
-package org.hnau.anna.money.view
+package org.hnau.anna.money.utils.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
 import android.view.MotionEvent
 import android.view.View
 import io.reactivex.Observable
-import kotlinx.coroutines.NonCancellable.isActive
 import org.hnau.anna.money.data.Currency
-import org.hnau.anna.money.utils.rx.toProducer
 import org.hnau.anna.money.utils.ui.ColorManager
 import ru.hnau.androidutils.context_getters.ColorGetter
 import ru.hnau.androidutils.context_getters.dp_px.dp64
@@ -20,15 +18,14 @@ import ru.hnau.androidutils.ui.view.list.base.BaseListViewWrapper
 import ru.hnau.androidutils.ui.view.utils.createIsVisibleToUserProducer
 import ru.hnau.androidutils.ui.view.utils.getDefaultMeasurement
 import ru.hnau.androidutils.ui.view.utils.touch.TouchHandler
-import ru.hnau.jutils.handle
-import ru.hnau.jutils.producer.StateProducer
+import ru.hnau.jutils.helpers.Box
+import ru.hnau.jutils.producer.Producer
 import ru.hnau.jutils.producer.StateProducerSimple
-import ru.hnau.jutils.producer.extensions.observeWhen
 
 
 class CurrencyButtonViewWrapper(
         context: Context,
-        private val selectedCurrency: Observable<Currency?>,
+        private val selectedCurrency: Producer<Box<Currency?>>,
         onClick: (Currency) -> Unit
 ) : View(
         context

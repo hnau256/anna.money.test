@@ -1,4 +1,4 @@
-package org.hnau.anna.money.view
+package org.hnau.anna.money.utils.ui.view
 
 import android.content.Context
 import android.graphics.*
@@ -7,17 +7,13 @@ import org.hnau.anna.money.data.Currency
 import org.hnau.anna.money.utils.rx.toProducer
 import org.hnau.anna.money.utils.ui.ColorManager
 import org.hnau.anna.money.utils.ui.FontManager
-import ru.hnau.androidutils.context_getters.ColorGetter
 import ru.hnau.androidutils.context_getters.dp_px.*
 import ru.hnau.androidutils.context_getters.dp_px.DpPxGetter.Companion.dp
 import ru.hnau.androidutils.ui.bounds_producer.BoundsProducer
 import ru.hnau.androidutils.ui.canvas_shape.CanvasShape
-import ru.hnau.androidutils.ui.utils.types_utils.ColorUtils
-import ru.hnau.androidutils.ui.view.utils.ViewIsVisibleToUserProducer
-import ru.hnau.androidutils.utils.ContextConnector.context
 import ru.hnau.jutils.handle
+import ru.hnau.jutils.helpers.Box
 import ru.hnau.jutils.producer.Producer
-import ru.hnau.jutils.producer.extensions.filterUnique
 import ru.hnau.jutils.producer.extensions.observeWhen
 import ru.hnau.jutils.producer.extensions.toProducer
 import kotlin.math.min
@@ -28,7 +24,7 @@ class CurrencyButtonContentDrawer(
         isVisibleToUserProducer: Producer<Boolean>,
         private val onNeedInvalidate: () -> Unit,
         currencyProducer: Producer<Currency>,
-        selectedCurrencyProducer: Observable<Currency?>,
+        selectedCurrencyProducer: Producer<Box<Currency?>>,
         private val canvasShape: CanvasShape,
         private val boundsProducer: BoundsProducer
 ) {
@@ -98,9 +94,9 @@ class CurrencyButtonContentDrawer(
         currencyProducer.attach { currency = it }
 
         currencyProducer.combineWith(
-                selectedCurrencyProducer.toProducer()
+                selectedCurrencyProducer
         ) { thisCurrency, selectedCurrency ->
-            thisCurrency == selectedCurrency
+            thisCurrency == selectedCurrency.value
         }.observeWhen(isVisibleToUserProducer) {
             isActive = it
         }

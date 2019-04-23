@@ -1,7 +1,9 @@
 package org.hnau.anna.money.utils.rx
 
+import android.os.Handler
 import io.reactivex.Observer
 import org.hnau.anna.money.utils.CachedAsync
+import ru.hnau.androidutils.utils.handler.HandlerWaiter
 import ru.hnau.jutils.TimeValue
 import ru.hnau.jutils.getter.base.GetterAsync
 import ru.hnau.jutils.handle
@@ -18,6 +20,11 @@ abstract class AsyncEmitter<T : Any>(
     private val actualGetter: GetterAsync<Unit, T>?
         get() = cachedValue?.value?.takeIf { !it.finishedWithError }
 
+    private val invalidateWaiter = HandlerWaiter(
+            handler = Handler(),
+            block = this::invalidate
+    )
+
     fun invalidate() = synchronized(this) {
         if (isObserving) {
             forceInvalidate()
@@ -31,6 +38,7 @@ abstract class AsyncEmitter<T : Any>(
     fun update(getter: GetterAsync<Unit, T>) {
         onNext(getter)
         cachedValue = CachedAsync(getter).toOutdatable(getterLifetime)
+        getterLifetime?.let(invalidateWaiter::start)
     }
 
     override fun onSubscribed(observer: Observer<in GetterAsync<Unit, T>>) {

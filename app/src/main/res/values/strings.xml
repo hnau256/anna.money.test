@@ -2,6 +2,7 @@
     <string name="app_name">AnnaMoney</string>
 
     <string name="currency_name_USD">Доллар США</string>
+    <string name="currency_name_EUR">Евро</string>
     <string name="currency_name_JPY">Иена</string>
     <string name="currency_name_BGN">Лев</string>
     <string name="currency_name_CZK">Чешская крона</string>

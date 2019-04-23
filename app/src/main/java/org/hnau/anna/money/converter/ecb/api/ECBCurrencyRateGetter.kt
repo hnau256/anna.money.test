@@ -1,9 +1,10 @@
-package org.hnau.anna.money.api
+package org.hnau.anna.money.converter.ecb.api
 
-import io.reactivex.Observable
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
-import org.hnau.anna.money.api.entity.CurrencyRateBasedOnEuro
+import org.hnau.anna.money.converter.ecb.api.entity.ECBData
 import org.simpleframework.xml.convert.AnnotationStrategy
 import org.simpleframework.xml.core.Persister
 import retrofit2.Retrofit
@@ -12,7 +13,7 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import retrofit2.http.GET
 
 
-interface CurrencyRateProvider {
+interface ECBCurrencyRateGetter {
 
     companion object {
 
@@ -22,13 +23,13 @@ interface CurrencyRateProvider {
                 .baseUrl(BASE_URL)
                 .client(OkHttpClient())
                 .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(Persister(AnnotationStrategy())))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .build()
-                .create(CurrencyRateProvider::class.java)
+                .create(ECBCurrencyRateGetter::class.java)
 
     }
 
     @GET("stats/eurofxref/eurofxref-daily.xml")
-    fun getCurrencyRate(): Observable<CurrencyRateBasedOnEuro>
+    fun getCurrencyRate(): Deferred<ECBData>
 
 }

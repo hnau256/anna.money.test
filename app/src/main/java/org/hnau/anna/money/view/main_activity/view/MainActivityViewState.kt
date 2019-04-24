@@ -3,6 +3,8 @@ package org.hnau.anna.money.view.main_activity.view
 import com.arellomobile.mvp.MvpDelegate
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import org.hnau.anna.money.data.Currency
 import org.hnau.anna.money.data.Money
 import org.hnau.anna.money.presenter.AppPresenter
@@ -26,36 +28,36 @@ class MainActivityViewState(
                 .setParentDelegate(parentDelegate, "MainActivityView")
     }
 
-    val availableFromCurrencies = ActualProducerSimple<Set<Currency>>(emptySet())
+    val availableFromCurrencies = BehaviorSubject.createDefault<Set<Currency>>(emptySet())
     override fun setAvailableFromCurrencies(availableFromCurrencies: Set<Currency>) =
-            this.availableFromCurrencies.updateState(availableFromCurrencies)
+            this.availableFromCurrencies.onNext(availableFromCurrencies)
 
-    val selectedFromCurrency = ActualProducerSimple<Box<Currency?>>(Box(null))
-    override fun setSelectedFromCurrency(selectedFromCurrency: Currency?) =
-            this.selectedFromCurrency.updateStateIfChanged(selectedFromCurrency.toBox())
+    val selectedFromCurrency = BehaviorSubject.createDefault<Box<Currency?>>(Box(null))
+    override fun setSelectedFromCurrency(selectedFromCurrency: Box<Currency?>) =
+            this.selectedFromCurrency.onNext(selectedFromCurrency)
 
-    val availableToCurrencies = ActualProducerSimple<Set<Currency>>(emptySet())
+    val availableToCurrencies = BehaviorSubject.createDefault<Set<Currency>>(emptySet())
     override fun setAvailableToCurrencies(availableToCurrencies: Set<Currency>) =
-            this.availableToCurrencies.updateState(availableToCurrencies)
+            this.availableToCurrencies.onNext(availableToCurrencies)
 
-    val selectedToCurrency = ActualProducerSimple<Box<Currency?>>(Box(null))
-    override fun setSelectedToCurrency(selectedToCurrency: Currency?) =
-            this.selectedToCurrency.updateStateIfChanged(selectedToCurrency.toBox())
+    val selectedToCurrency = BehaviorSubject.createDefault<Box<Currency?>>(Box(null))
+    override fun setSelectedToCurrency(selectedToCurrency: Box<Currency?>) =
+            this.selectedToCurrency.onNext(selectedToCurrency)
 
-    val fromMoneyString = ActualProducerSimple<String>("")
+    val fromMoneyString = BehaviorSubject.createDefault<String>("")
     override fun setFromMoney(fromMoneyString: String) =
-            this.fromMoneyString.updateStateIfChanged(fromMoneyString)
+            this.fromMoneyString.onNext(fromMoneyString)
 
-    val toMoney = ActualProducerSimple<Money>(Money.ZERO)
+    val toMoney = BehaviorSubject.createDefault<Money>(Money.ZERO)
     override fun setToMoney(toMoney: Money) =
-            this.toMoney.updateStateIfChanged(toMoney)
+            this.toMoney.onNext(toMoney)
 
-    val errorMessage = ActualProducerSimple<StringGetter>(StringGetter.EMPTY)
+    val errorMessage = BehaviorSubject.createDefault<StringGetter>(StringGetter.EMPTY)
     override fun setError(errorMessage: StringGetter) =
-            this.errorMessage.updateState(errorMessage)
+            this.errorMessage.onNext(errorMessage)
 
-    val lockedProducer = SimpleLockedProducer()
+    val lockedProducer = BehaviorSubject.createDefault(false)
     override fun setIsUpdating(isUpdating: Boolean) =
-            lockedProducer.setIsLocked(isUpdating)
+            lockedProducer.onNext(isUpdating)
 
 }

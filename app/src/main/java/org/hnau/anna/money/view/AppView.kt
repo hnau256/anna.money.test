@@ -4,6 +4,7 @@ import com.arellomobile.mvp.MvpView
 import org.hnau.anna.money.data.Currency
 import org.hnau.anna.money.data.Money
 import ru.hnau.androidutils.context_getters.StringGetter
+import ru.hnau.jutils.helpers.Box
 import java.math.BigDecimal
 
 
@@ -11,11 +12,11 @@ interface AppView : MvpView {
 
     fun setAvailableFromCurrencies(availableFromCurrencies: Set<Currency>)
 
-    fun setSelectedFromCurrency(selectedFromCurrency: Currency?)
+    fun setSelectedFromCurrency(selectedFromCurrency: Box<Currency?>)
 
     fun setAvailableToCurrencies(availableToCurrencies: Set<Currency>)
 
-    fun setSelectedToCurrency(selectedToCurrency: Currency?)
+    fun setSelectedToCurrency(selectedToCurrency: Box<Currency?>)
 
     fun setFromMoney(fromMoneyString: String)
 

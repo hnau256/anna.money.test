@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.view.MotionEvent
 import android.view.View
 import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import org.hnau.anna.money.data.Currency
 import org.hnau.anna.money.utils.ui.ColorManager
 import ru.hnau.androidutils.context_getters.ColorGetter
@@ -19,13 +20,11 @@ import ru.hnau.androidutils.ui.view.utils.createIsVisibleToUserProducer
 import ru.hnau.androidutils.ui.view.utils.getDefaultMeasurement
 import ru.hnau.androidutils.ui.view.utils.touch.TouchHandler
 import ru.hnau.jutils.helpers.Box
-import ru.hnau.jutils.producer.Producer
-import ru.hnau.jutils.producer.StateProducerSimple
 
 
 class CurrencyButtonViewWrapper(
         context: Context,
-        private val selectedCurrency: Producer<Box<Currency?>>,
+        selectedCurrency: Observable<Box<Currency?>>,
         onClick: (Currency) -> Unit
 ) : View(
         context
@@ -41,7 +40,7 @@ class CurrencyButtonViewWrapper(
 
     override val view = this
 
-    private val currency = StateProducerSimple<Currency>()
+    private val currency = BehaviorSubject.create<Currency>()
 
     private val isVisibleToUserProducer =
             createIsVisibleToUserProducer()
@@ -55,7 +54,7 @@ class CurrencyButtonViewWrapper(
 
     private val touchHandler = TouchHandler(
             canvasShape = canvasShape
-    ) { currency.currentState?.let(onClick) }
+    ) { currency.value?.let(onClick) }
 
     private val shadowDrawer = ButtonShadowDrawer(
             animatingView = this,
@@ -82,10 +81,10 @@ class CurrencyButtonViewWrapper(
             context = context,
             canvasShape = canvasShape,
             boundsProducer = boundsProducer,
-            currencyProducer = currency,
+            thisCurrencyObservable = currency,
             isVisibleToUserProducer = isVisibleToUserProducer,
             onNeedInvalidate = this::invalidate,
-            selectedCurrencyProducer = selectedCurrency
+            selectedCurrencyObservable = selectedCurrency
     )
 
     override fun draw(canvas: Canvas) {
@@ -103,7 +102,7 @@ class CurrencyButtonViewWrapper(
     }
 
     override fun setContent(content: Currency, position: Int) {
-        currency.updateState(content)
+        currency.onNext(content)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

@@ -15,8 +15,8 @@ import ru.hnau.jutils.producer.extensions.toProducer
 
 class CurrenciesList(
         context: Context,
-        selectedCurrency: Producer<Box<Currency?>>,
-        currencies: Producer<Set<Currency>>,
+        selectedCurrency: Observable<Box<Currency?>>,
+        currencies: Observable<Set<Currency>>,
         onCurrencyClick: (Currency) -> Unit
 ) : BaseList<Currency>(
         context = context,
@@ -28,10 +28,12 @@ class CurrenciesList(
             )
         },
         orientation = BaseListOrientation.HORIZONTAL,
-        itemsProducer = currencies.map { it.sortedBy { it.name } },
-        fixedSize = true,
-        calculateDiffInfo = BaseListCalculateDiffInfo.create<Currency, String, Currency>(
-                itemIdExtractor = { it.name },
+        itemsProducer = currencies.map { currenciesSet ->
+            currenciesSet.sortedBy(Currency::name)
+        }.toProducer(),
+        fixedSize = true/*,
+        calculateDiffInfo = BaseListCalculateDiffInfo.create<Currency, Currency, Currency>(
+                itemIdExtractor = { it },
                 itemContentExtractor = { it }
-        )
+        )*/
 )

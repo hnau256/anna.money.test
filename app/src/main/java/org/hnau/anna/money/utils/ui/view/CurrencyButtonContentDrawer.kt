@@ -3,7 +3,9 @@ package org.hnau.anna.money.utils.ui.view
 import android.content.Context
 import android.graphics.*
 import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
 import org.hnau.anna.money.data.Currency
+import org.hnau.anna.money.utils.rx.subscribeWhen
 import org.hnau.anna.money.utils.rx.toProducer
 import org.hnau.anna.money.utils.ui.ColorManager
 import org.hnau.anna.money.utils.ui.FontManager
@@ -23,8 +25,8 @@ class CurrencyButtonContentDrawer(
         private val context: Context,
         isVisibleToUserProducer: Producer<Boolean>,
         private val onNeedInvalidate: () -> Unit,
-        currencyProducer: Producer<Currency>,
-        selectedCurrencyProducer: Producer<Box<Currency?>>,
+        thisCurrencyObservable: Observable<Currency>,
+        selectedCurrencyObservable: Observable<Box<Currency?>>,
         private val canvasShape: CanvasShape,
         private val boundsProducer: BoundsProducer
 ) {
@@ -91,15 +93,15 @@ class CurrencyButtonContentDrawer(
         }
 
     init {
-        currencyProducer.attach { currency = it }
+        thisCurrencyObservable.subscribe { currency = it }
 
-        currencyProducer.combineWith(
-                selectedCurrencyProducer
-        ) { thisCurrency, selectedCurrency ->
-            thisCurrency == selectedCurrency.value
-        }.observeWhen(isVisibleToUserProducer) {
-            isActive = it
-        }
+        Observable.combineLatest<Currency, Box<Currency?>, Boolean>(
+                thisCurrencyObservable,
+                selectedCurrencyObservable,
+                BiFunction { thisCurrency, selectedCurrency ->
+                    thisCurrency == selectedCurrency.value
+                }
+        ).subscribeWhen(isVisibleToUserProducer) { isActive = it }
 
         boundsProducer.attach { bounds = it }
 

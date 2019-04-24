@@ -3,7 +3,7 @@ package org.hnau.anna.money
 import android.app.Application
 import com.arellomobile.mvp.MvpDelegate
 import com.arellomobile.mvp.MvpFacade
-import org.hnau.anna.money.view.DaggerAppModelComponent
+import org.hnau.anna.money.model.di.DaggerAppModelComponent
 import ru.hnau.androidutils.utils.ContextConnector
 
 

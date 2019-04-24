@@ -12,11 +12,11 @@ interface AppView : MvpView {
 
     fun setAvailableFromCurrencies(availableFromCurrencies: Set<Currency>)
 
-    fun setSelectedFromCurrency(selectedFromCurrency: Box<Currency?>)
+    fun setSelectedFromCurrency(fromCurrency: Box<Currency?>)
 
     fun setAvailableToCurrencies(availableToCurrencies: Set<Currency>)
 
-    fun setSelectedToCurrency(selectedToCurrency: Box<Currency?>)
+    fun setSelectedToCurrency(toCurrency: Box<Currency?>)
 
     fun setFromMoney(fromMoneyString: String)
 

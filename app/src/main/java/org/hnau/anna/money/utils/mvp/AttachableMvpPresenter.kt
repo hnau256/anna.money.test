@@ -7,7 +7,9 @@ import io.reactivex.subjects.BehaviorSubject
 import ru.hnau.jutils.producer.ActualProducerSimple
 import ru.hnau.jutils.producer.Producer
 
-
+/**
+ * MvpPresenter, который отслеживает, подключен ли к нему хоть один [View]
+ */
 abstract class AttachableMvpPresenter<View : MvpView> : MvpPresenter<View>() {
 
     private val isVisibleToUserObservableInner =

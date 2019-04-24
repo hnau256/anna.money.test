@@ -6,6 +6,9 @@ import java.lang.IllegalArgumentException
 import java.math.BigDecimal
 
 
+/**
+ * CurrencyConverter, который выполняет конвертацию на основе коэффициентов между валютами
+ */
 open class FactorsMapCurrencyConverter(
         private val factorsMap: Map<Currency, BigDecimal>
 ) : CurrencyConverter {

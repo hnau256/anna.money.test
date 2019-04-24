@@ -7,8 +7,14 @@ import ru.hnau.jutils.TimeValue
 
 
 class ECBCurrencyConverterProvider : CurrencyConverterProvider(
-        actualConverterLifetime = TimeValue.SECOND * 30
+        actualConverterLifetime = CONVERTER_LIFETIME
 ) {
+
+    companion object {
+
+        private val CONVERTER_LIFETIME = TimeValue.SECOND * 30
+
+    }
 
     override suspend fun getCurrencyConverter(): CurrencyConverter {
         val ecbData = ECBCurrencyRateGetter.INSTANCE.getCurrencyRate().await()

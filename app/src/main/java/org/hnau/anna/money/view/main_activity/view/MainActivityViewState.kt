@@ -32,17 +32,17 @@ class MainActivityViewState(
     override fun setAvailableFromCurrencies(availableFromCurrencies: Set<Currency>) =
             this.availableFromCurrencies.onNext(availableFromCurrencies)
 
-    val selectedFromCurrency = BehaviorSubject.createDefault<Box<Currency?>>(Box(null))
-    override fun setSelectedFromCurrency(selectedFromCurrency: Box<Currency?>) =
-            this.selectedFromCurrency.onNext(selectedFromCurrency)
+    val fromCurrency = BehaviorSubject.createDefault<Box<Currency?>>(Box(null))
+    override fun setSelectedFromCurrency(fromCurrency: Box<Currency?>) =
+            this.fromCurrency.onNext(fromCurrency)
 
     val availableToCurrencies = BehaviorSubject.createDefault<Set<Currency>>(emptySet())
     override fun setAvailableToCurrencies(availableToCurrencies: Set<Currency>) =
             this.availableToCurrencies.onNext(availableToCurrencies)
 
-    val selectedToCurrency = BehaviorSubject.createDefault<Box<Currency?>>(Box(null))
-    override fun setSelectedToCurrency(selectedToCurrency: Box<Currency?>) =
-            this.selectedToCurrency.onNext(selectedToCurrency)
+    val toCurrency = BehaviorSubject.createDefault<Box<Currency?>>(Box(null))
+    override fun setSelectedToCurrency(toCurrency: Box<Currency?>) =
+            this.toCurrency.onNext(toCurrency)
 
     val fromMoneyString = BehaviorSubject.createDefault<String>("")
     override fun setFromMoney(fromMoneyString: String) =
@@ -56,8 +56,8 @@ class MainActivityViewState(
     override fun setError(errorMessage: StringGetter) =
             this.errorMessage.onNext(errorMessage)
 
-    val lockedProducer = BehaviorSubject.createDefault(false)
+    val lockedProducer = SimpleLockedProducer()
     override fun setIsUpdating(isUpdating: Boolean) =
-            lockedProducer.onNext(isUpdating)
+            lockedProducer.setIsLocked(isUpdating)
 
 }

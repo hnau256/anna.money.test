@@ -1,4 +1,4 @@
-package org.hnau.anna.money.utils.ui.view
+package org.hnau.anna.money.utils.ui.view.currencies_list.item
 
 import android.content.Context
 import android.graphics.Canvas
@@ -21,7 +21,9 @@ import ru.hnau.androidutils.ui.view.utils.getDefaultMeasurement
 import ru.hnau.androidutils.ui.view.utils.touch.TouchHandler
 import ru.hnau.jutils.helpers.Box
 
-
+/**
+ * Элемент CurrenciesList
+ */
 class CurrencyButtonViewWrapper(
         context: Context,
         selectedCurrency: Observable<Box<Currency?>>,
@@ -32,7 +34,7 @@ class CurrencyButtonViewWrapper(
 
     companion object {
 
-        private val PREFERRED_SIZE = dp64
+        val PREFERRED_SIZE = dp64
 
     }
 

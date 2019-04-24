@@ -9,6 +9,9 @@ import ru.hnau.jutils.TimeValue
 import java.math.BigDecimal
 
 
+/**
+ * FactorsMapCurrencyConverter, который получает коэффициенты между валютами с https://www.ecb.europa.eu/
+ */
 class ECBCurrencyConverter(
         ecbData: ECBData
 ) : FactorsMapCurrencyConverter(

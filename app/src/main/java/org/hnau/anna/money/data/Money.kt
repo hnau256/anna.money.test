@@ -3,6 +3,7 @@ package org.hnau.anna.money.data
 import java.math.BigDecimal
 
 
+//Обертка над BigDecimal. Должен быть inline class но в таком случае MvpMoxy неверно выполняет кодогенерацию
 class Money(
         val value: BigDecimal
 ) {

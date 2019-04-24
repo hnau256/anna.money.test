@@ -5,15 +5,18 @@ import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
 
 
+//Observable, который повторяет логику PublishSubject, но от которого можно наследоваться
 abstract class Emitter<T> : Observable<T>() {
 
     private val publishSubject = PublishSubject.create<T>()
 
-    val isObserving: Boolean
+    protected val isObserving: Boolean
         get() = publishSubject.hasObservers()
 
-    override final fun subscribeActual(observer: Observer<in T>) =
-            publishSubject.subscribe(observer)
+    override final fun subscribeActual(observer: Observer<in T>) {
+        publishSubject.subscribe(observer)
+        onSubscribed(observer)
+    }
 
     protected open fun onSubscribed(observer: Observer<in T>) {}
 

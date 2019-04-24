@@ -11,21 +11,33 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import retrofit2.http.GET
+import java.time.Duration
 
-
+/**
+ * Retrofit2 интерфейс для получения курса валют с https://www.ecb.europa.eu/
+ */
 interface ECBCurrencyRateGetter {
 
     companion object {
 
         private const val BASE_URL = "https://www.ecb.europa.eu/"
 
-        val INSTANCE = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(OkHttpClient())
-                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(Persister(AnnotationStrategy())))
-                .addCallAdapterFactory(CoroutineCallAdapterFactory())
-                .build()
-                .create(ECBCurrencyRateGetter::class.java)
+        private val CONNECTION_TIMEOUT = Duration.ofSeconds(20)
+
+        val INSTANCE = run {
+
+            val okHttpClient = OkHttpClient.Builder()
+                    .callTimeout(CONNECTION_TIMEOUT)
+                    .build()
+
+            Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .client(okHttpClient)
+                    .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(Persister(AnnotationStrategy())))
+                    .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                    .build()
+                    .create(ECBCurrencyRateGetter::class.java)
+        }
 
     }
 

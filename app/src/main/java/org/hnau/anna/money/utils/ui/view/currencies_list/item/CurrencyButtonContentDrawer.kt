@@ -1,4 +1,4 @@
-package org.hnau.anna.money.utils.ui.view
+package org.hnau.anna.money.utils.ui.view.currencies_list.item
 
 import android.content.Context
 import android.graphics.*
@@ -6,7 +6,6 @@ import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import org.hnau.anna.money.data.Currency
 import org.hnau.anna.money.utils.rx.subscribeWhen
-import org.hnau.anna.money.utils.rx.toProducer
 import org.hnau.anna.money.utils.ui.ColorManager
 import org.hnau.anna.money.utils.ui.FontManager
 import ru.hnau.androidutils.context_getters.dp_px.*
@@ -16,11 +15,11 @@ import ru.hnau.androidutils.ui.canvas_shape.CanvasShape
 import ru.hnau.jutils.handle
 import ru.hnau.jutils.helpers.Box
 import ru.hnau.jutils.producer.Producer
-import ru.hnau.jutils.producer.extensions.observeWhen
-import ru.hnau.jutils.producer.extensions.toProducer
 import kotlin.math.min
 
-
+/**
+ * Отрисовка содержимого CurrencyButtonViewWrapper
+ */
 class CurrencyButtonContentDrawer(
         private val context: Context,
         isVisibleToUserProducer: Producer<Boolean>,

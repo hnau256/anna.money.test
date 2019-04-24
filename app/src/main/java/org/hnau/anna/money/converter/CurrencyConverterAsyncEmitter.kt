@@ -7,7 +7,9 @@ import ru.hnau.jutils.getter.base.GetterAsync
 
 class CurrencyConverterAsyncEmitter(
         private val currencyConverterProvider: CurrencyConverterProvider
-) : AsyncEmitter<CurrencyConverter>() {
+) : AsyncEmitter<CurrencyConverter>(
+        getterLifetime = currencyConverterProvider.actualConverterLifetime
+) {
 
     override fun getNewGetter() =
             SuspendGetter.simple(currencyConverterProvider::getCurrencyConverter)

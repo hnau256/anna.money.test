@@ -1,13 +1,13 @@
 package org.hnau.anna.money.model
 
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function4
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.Dispatchers
 import org.hnau.anna.money.converter.CurrencyConverter
 import org.hnau.anna.money.converter.CurrencyConverterAsyncEmitter
-import org.hnau.anna.money.converter.ecb.ECBCurrencyConverterProvider
+import org.hnau.anna.money.converter.provider.CurrencyConverterProvider
+import org.hnau.anna.money.converter.provider.di.CurrencyConverterProviderComponent
 import org.hnau.anna.money.data.Currency
 import org.hnau.anna.money.data.Money
 import org.hnau.anna.money.model.converting.Converter
@@ -18,16 +18,25 @@ import ru.hnau.jutils.coroutines.launch
 import ru.hnau.jutils.helpers.Box
 import ru.hnau.jutils.helpers.toBox
 import ru.hnau.jutils.possible.Possible
+import javax.inject.Inject
 
 
-class AppModel {
+class AppModel(
+        currencyConverterProviderComponent: CurrencyConverterProviderComponent
+) {
 
     val isLockedObservable = IsLockedObservable()
 
-    //Асинхронный поставщик конвертера валют
-    private val currencyConverterAsyncEmitter = run {
-        CurrencyConverterAsyncEmitter(ECBCurrencyConverterProvider())
+    @Inject
+    lateinit var currencyConverterProvider: CurrencyConverterProvider
+
+    init {
+        currencyConverterProviderComponent.inject(this)
     }
+
+    //Асинхронный поставщик конвертера валют
+    private val currencyConverterAsyncEmitter =
+            CurrencyConverterAsyncEmitter(currencyConverterProvider)
 
     //Конвертер валют
     private val currencyConverterObservable =
@@ -64,7 +73,7 @@ class AppModel {
     }
 
     //Введенная пользователем сумма
-    private val fromMoneyObservable =
+    val fromMoneyObservable =
             BehaviorSubject.createDefault("")
 
     //Выбранная валюта для конвертации
@@ -82,7 +91,7 @@ class AppModel {
     }
 
     //Результат выполнения конвертации или ошибка
-    private val toMoneyObservable = Observable.combineLatest<Possible<CurrencyConverter>, Box<Currency?>, Box<Currency?>, String, Possible<Money>>(
+    val toMoneyObservable = Observable.combineLatest<Possible<CurrencyConverter>, Box<Currency?>, Box<Currency?>, String, Possible<Money>>(
             currencyConverterObservable,
             fromCurrencyObservable,
             toCurrencyObservable,
@@ -108,6 +117,7 @@ class AppModel {
     fun onToCurrencySelected(toCurrency: Currency) =
             toCurrencyObservableRaw.onNext(toCurrency.toBox())
 
+    //Пользователь ввел сумму для конвертации
     fun onFromMoneyEntered(fromMoneyString: String) =
             fromMoneyObservable.onNext(fromMoneyString)
 

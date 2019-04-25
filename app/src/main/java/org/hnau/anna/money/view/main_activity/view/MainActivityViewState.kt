@@ -12,6 +12,7 @@ import org.hnau.anna.money.view.AppView
 import ru.hnau.androidutils.context_getters.StringGetter
 import ru.hnau.jutils.helpers.Box
 import ru.hnau.jutils.helpers.toBox
+import ru.hnau.jutils.possible.Possible
 import ru.hnau.jutils.producer.ActualProducerSimple
 import ru.hnau.jutils.producer.locked_producer.SimpleLockedProducer
 
@@ -21,7 +22,8 @@ class MainActivityViewState(
 ) : AppView {
 
     @InjectPresenter(type = PresenterType.GLOBAL, tag = "MainActivityView")
-    lateinit var presenter: AppPresenter
+    @JvmField
+    var presenter: AppPresenter? = null
 
     init {
         MvpDelegate(this)
@@ -48,8 +50,8 @@ class MainActivityViewState(
     override fun setFromMoney(fromMoneyString: String) =
             this.fromMoneyString.onNext(fromMoneyString)
 
-    val toMoney = BehaviorSubject.createDefault<Money>(Money.ZERO)
-    override fun setToMoney(toMoney: Money) =
+    val toMoney = BehaviorSubject.createDefault<Possible<Money>>(Possible.undefined())
+    override fun setToMoney(toMoney: Possible<Money>) =
             this.toMoney.onNext(toMoney)
 
     val errorMessage = BehaviorSubject.createDefault<StringGetter>(StringGetter.EMPTY)

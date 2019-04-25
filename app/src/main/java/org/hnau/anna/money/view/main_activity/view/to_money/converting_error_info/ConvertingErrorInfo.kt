@@ -1,7 +1,7 @@
-package org.hnau.anna.money.utils.ui.view.error_info
+package org.hnau.anna.money.view.main_activity.view.to_money.converting_error_info
 
-import org.hnau.anna.money.model.converting.exception.CurrencyConvertingException
-import org.hnau.anna.money.model.converting.exception.CurrencyConvertingExceptionWithAdditionalAction
+import org.hnau.anna.money.model.converting.exception.ConvertingException
+import org.hnau.anna.money.model.converting.exception.ConvertingExceptionWithAction
 import ru.hnau.androidutils.context_getters.StringGetter
 import java.lang.Exception
 
@@ -23,11 +23,11 @@ data class ConvertingErrorInfo(
         ): ConvertingErrorInfo {
 
             val convertingException =
-                    exception as? CurrencyConvertingException
+                    exception as? ConvertingException
                             ?: throw exception
 
             val actionException =
-                    convertingException as? CurrencyConvertingExceptionWithAdditionalAction
+                    convertingException as? ConvertingExceptionWithAction
 
             return ConvertingErrorInfo(
                     title = convertingException.text,

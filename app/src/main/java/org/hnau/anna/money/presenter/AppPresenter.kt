@@ -18,31 +18,23 @@ import javax.inject.Inject
 @InjectViewState
 class AppPresenter : AttachableMvpPresenter<AppView>() {
 
-    @Inject
-    lateinit var appModel: AppModel
-
     init {
-        App.appModelComponent.inject(this)
+        App.appModel.fromCurrencyObservable.subscribeWhen(isVisibleToUserObservable, viewState::setSelectedFromCurrency)
+        App.appModel.toCurrencyObservable.subscribeWhen(isVisibleToUserObservable, viewState::setSelectedToCurrency)
+        App.appModel.availableCurrenciesObservable.subscribeWhen(isVisibleToUserObservable, viewState::setAvailableFromCurrencies)
+        App.appModel.availableToCurrenciesObservable.subscribeWhen(isVisibleToUserObservable, viewState::setAvailableToCurrencies)
+        App.appModel.isLockedObservable.subscribeWhen(isVisibleToUserObservable, viewState::setIsUpdating)
+        App.appModel.fromMoneyObservable.subscribeWhen(isVisibleToUserObservable, viewState::setFromMoney)
+        App.appModel.toMoneyObservable.subscribeWhen(isVisibleToUserObservable, viewState::setToMoney)
     }
 
-    init {
-        appModel.fromCurrencyObservable.subscribeWhen(isVisibleToUserObservable, viewState::setSelectedFromCurrency)
-        appModel.toCurrencyObservable.subscribeWhen(isVisibleToUserObservable, viewState::setSelectedToCurrency)
-        appModel.availableCurrenciesObservable.subscribeWhen(isVisibleToUserObservable, viewState::setAvailableFromCurrencies)
-        appModel.availableToCurrenciesObservable.subscribeWhen(isVisibleToUserObservable, viewState::setAvailableToCurrencies)
-        appModel.isLockedObservable.subscribeWhen(isVisibleToUserObservable, viewState::setIsUpdating)
-    }
-
-    fun onFromMoneyEntered(fromMoney: String) {
-        //appModel.setFromMoney(fromMoney)
-        viewState.setFromMoney(fromMoney)
-        TODO()
-    }
+    fun onFromMoneyEntered(fromMoney: String) =
+            App.appModel.onFromMoneyEntered(fromMoney)
 
     fun onFromCurrencyClicked(fromCurrency: Currency) =
-            appModel.onFromCurrencySelected(fromCurrency)
+            App.appModel.onFromCurrencySelected(fromCurrency)
 
     fun onToCurrencyClicked(toCurrency: Currency) =
-            appModel.onToCurrencySelected(toCurrency)
+            App.appModel.onToCurrencySelected(toCurrency)
 
 }

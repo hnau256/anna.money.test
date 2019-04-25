@@ -4,7 +4,7 @@ import java.math.BigDecimal
 
 
 //Обертка над BigDecimal. Должен быть inline class но в таком случае MvpMoxy неверно выполняет кодогенерацию
-class Money(
+data class Money(
         val value: BigDecimal
 ) {
 

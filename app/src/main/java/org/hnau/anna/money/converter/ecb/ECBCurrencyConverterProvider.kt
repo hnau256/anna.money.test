@@ -1,7 +1,7 @@
 package org.hnau.anna.money.converter.ecb
 
 import org.hnau.anna.money.converter.CurrencyConverter
-import org.hnau.anna.money.converter.CurrencyConverterProvider
+import org.hnau.anna.money.converter.provider.CurrencyConverterProvider
 import org.hnau.anna.money.converter.ecb.api.ECBCurrencyRateGetter
 import ru.hnau.jutils.TimeValue
 

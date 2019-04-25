@@ -1,8 +1,8 @@
 package org.hnau.anna.money.converter
 
+import org.hnau.anna.money.converter.provider.CurrencyConverterProvider
 import org.hnau.anna.money.utils.rx.AsyncEmitter
 import ru.hnau.jutils.getter.SuspendGetter
-import ru.hnau.jutils.getter.base.GetterAsync
 
 
 class CurrencyConverterAsyncEmitter(

@@ -35,11 +35,15 @@
     <string name="currency_name_THB">Бат</string>
     <string name="currency_name_ZAR">Рэнд</string>
 
+    <string name="from_money_input_hint">Введите сумму</string>
+
     <string name="converting_error_no_converter">Ошибка получения данных</string>
     <string name="converting_error_no_converter_action">Обновить</string>
     <string name="converting_error_no_from_currency">Не выбрана исходная валюта конвертации</string>
     <string name="converting_error_no_to_currency">Не выбрана валюта результата конвертации</string>
     <string name="converting_error_no_from_money">Не введена сумма для конвертации</string>
     <string name="converting_error_incorrect_from_money">Введенная сумма для конвертации некорректна</string>
+
+    <string name="go_to_lottie_screen">Lottie</string>
 
 </resources>

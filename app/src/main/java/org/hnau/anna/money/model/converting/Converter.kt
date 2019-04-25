@@ -4,8 +4,8 @@ import org.hnau.anna.money.R
 import org.hnau.anna.money.converter.CurrencyConverter
 import org.hnau.anna.money.data.Currency
 import org.hnau.anna.money.data.Money
-import org.hnau.anna.money.model.converting.exception.CurrencyConvertingException
-import org.hnau.anna.money.model.converting.exception.CurrencyConvertingExceptionWithAdditionalAction
+import org.hnau.anna.money.model.converting.exception.ConvertingException
+import org.hnau.anna.money.model.converting.exception.ConvertingExceptionWithAction
 import ru.hnau.androidutils.context_getters.StringGetter
 import ru.hnau.jutils.helpers.Box
 import ru.hnau.jutils.possible.Possible
@@ -19,14 +19,14 @@ import ru.hnau.jutils.tryOrElse
  */
 object Converter {
 
-    private val NO_CONVERTER_ERROR_MESSAGE = StringGetter(R.string.converting_error_no_converter)
-    private val NO_CONVERTER_ACTION_TITLE = StringGetter(R.string.converting_error_no_converter_action)
-    private val NO_FROM_CURRENCY_ERROR_MESSAGE = StringGetter(R.string.converting_error_no_from_currency)
-    private val NO_TO_CURRENCY_ERROR_MESSAGE = StringGetter(R.string.converting_error_no_to_currency)
-    private val NO_FROM_MONEY_ERROR_MESSAGE = StringGetter(R.string.converting_error_no_from_money)
-    private val INCORRECT_FROM_MONEY_ERROR_MESSAGE = StringGetter(R.string.converting_error_incorrect_from_money)
+    val NO_CONVERTER_ERROR_MESSAGE = StringGetter(R.string.converting_error_no_converter)
+    val NO_CONVERTER_ACTION_TITLE = StringGetter(R.string.converting_error_no_converter_action)
+    val NO_FROM_CURRENCY_ERROR_MESSAGE = StringGetter(R.string.converting_error_no_from_currency)
+    val NO_TO_CURRENCY_ERROR_MESSAGE = StringGetter(R.string.converting_error_no_to_currency)
+    val NO_FROM_MONEY_ERROR_MESSAGE = StringGetter(R.string.converting_error_no_from_money)
+    val INCORRECT_FROM_MONEY_ERROR_MESSAGE = StringGetter(R.string.converting_error_incorrect_from_money)
 
-    @Throws(CurrencyConvertingException::class)
+    @Throws(ConvertingException::class)
     fun convert(
             possibleCurrencyConverter: Possible<CurrencyConverter>,
             fromCurrencyBox: Box<Currency?>,
@@ -36,17 +36,17 @@ object Converter {
     ): Money {
 
         val currencyConverter = possibleCurrencyConverter.data
-                ?: throw CurrencyConvertingExceptionWithAdditionalAction(
+                ?: throw ConvertingExceptionWithAction(
                         text = NO_CONVERTER_ERROR_MESSAGE,
                         actionTitle = NO_CONVERTER_ACTION_TITLE,
                         action = invalidateConverter
                 )
 
         val fromCurrency = fromCurrencyBox.value
-                ?: throw CurrencyConvertingException(NO_FROM_CURRENCY_ERROR_MESSAGE)
+                ?: throw ConvertingException(NO_FROM_CURRENCY_ERROR_MESSAGE)
 
         val toCurrency = toCurrencyBox.value
-                ?: throw CurrencyConvertingException(NO_TO_CURRENCY_ERROR_MESSAGE)
+                ?: throw ConvertingException(NO_TO_CURRENCY_ERROR_MESSAGE)
 
         val fromMoney = fromMoneyStringToMoney(fromMoneyString)
 
@@ -54,21 +54,21 @@ object Converter {
     }
 
 
-    @Throws(CurrencyConvertingException::class)
+    @Throws(ConvertingException::class)
     private fun fromMoneyStringToMoney(
             fromMoneyString: String
     ): Money {
         val formattedFromMoneyString = fromMoneyString
                 .replace(",", ".")
-                .filter { it.isDigit() || it == '.' }
+                .filterNot(Char::isWhitespace)
                 .takeIfNotEmpty()
-                ?: throw CurrencyConvertingException(NO_FROM_MONEY_ERROR_MESSAGE)
+                ?: throw ConvertingException(NO_FROM_MONEY_ERROR_MESSAGE)
         return tryOrElse(
                 throwsAction = {
                     Money(formattedFromMoneyString)
                 },
                 onThrow = {
-                    throw CurrencyConvertingException(INCORRECT_FROM_MONEY_ERROR_MESSAGE)
+                    throw ConvertingException(INCORRECT_FROM_MONEY_ERROR_MESSAGE)
                 }
         )
     }

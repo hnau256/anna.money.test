@@ -17,6 +17,7 @@ object ColorManager {
     val PRIMARY = ColorGetter.byResId(R.color.primary)
     val PRIMARY_DARK = ColorGetter.byResId(R.color.primary_dark)
 
+    val TRANSPARENT = ColorGetter.TRANSPARENT
     val WHITE = ColorGetter.byResId(R.color.white)
     val BLACK = ColorGetter.byResId(R.color.black)
     val GREY = ColorGetter.byResId(R.color.grey)

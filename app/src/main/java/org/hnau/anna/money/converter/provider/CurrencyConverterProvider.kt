@@ -1,5 +1,6 @@
-package org.hnau.anna.money.converter
+package org.hnau.anna.money.converter.provider
 
+import org.hnau.anna.money.converter.CurrencyConverter
 import ru.hnau.jutils.TimeValue
 
 

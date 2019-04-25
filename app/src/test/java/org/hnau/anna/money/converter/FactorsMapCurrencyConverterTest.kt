@@ -31,7 +31,7 @@ class FactorsMapCurrencyConverterTest {
     }
 
     @Test
-    fun convert() {
+    fun convert1() {
 
         val converter = FactorsMapCurrencyConverter(
                 factorsMap = mapOf(
@@ -42,7 +42,24 @@ class FactorsMapCurrencyConverterTest {
 
         val input = Money("14.24")
         val actual = converter.convert(Currency.AUD, Currency.DKK, input)
-        val expected = Money("0.6304")
+        val expected = Money("0.630832")
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun convert2() {
+
+        val converter = FactorsMapCurrencyConverter(
+                factorsMap = mapOf(
+                        Currency.EUR to BigDecimal("1"),
+                        Currency.RUB to BigDecimal("0.0139")
+                )
+        )
+
+        val input = Money("2")
+        val actual = converter.convert(Currency.EUR, Currency.RUB, input)
+        val expected = Money("0.0278")
 
         assertEquals(expected, actual)
     }

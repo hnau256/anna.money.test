@@ -18,7 +18,17 @@ open class FactorsMapCurrencyConverter(
     override fun convert(from: Currency, to: Currency, value: Money): Money {
         val fromFactor = factorsMap[from] ?: throwUnavailableCurrencyException(from)
         val toFactor = factorsMap[to] ?: throwUnavailableCurrencyException(to)
-        return value * toFactor / fromFactor
+        val factor = calcFactor(fromFactor, toFactor)
+        val result = value * factor
+        return result
+    }
+
+    private fun calcFactor(
+            fromFactor: BigDecimal,
+            toFactor: BigDecimal
+    ): BigDecimal {
+        val scale = fromFactor.scale() + toFactor.scale()
+        return toFactor.setScale(scale) / fromFactor.setScale(scale)
     }
 
     private fun throwUnavailableCurrencyException(

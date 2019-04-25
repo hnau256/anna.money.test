@@ -35,6 +35,7 @@ import androidx.core.content.ContextCompat.startActivity
 import android.app.ActivityOptions
 import android.content.Intent
 import org.hnau.anna.money.R
+import ru.hnau.androidutils.context_getters.dp_px.dp2
 
 
 class MainActivityView(
@@ -96,6 +97,14 @@ class MainActivityView(
                     ).applyLinearParams { setMatchParentHeight() }
             )
 
+        }
+
+        addView {
+            applyLinearParams {
+                setMatchParentWidth()
+                setHeight(dp2)
+            }
+            applyBackground(ColorManager.PRIMARY_DARK)
         }
 
         addHorizontalLayout {
